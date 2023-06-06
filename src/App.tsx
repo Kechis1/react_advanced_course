@@ -9,7 +9,7 @@ import {UserInfoPanel} from "./components/panels/UserInfoPanel";
 function App() {
   return (
     <div className="App">
-     {/* <ChuckNorrisJoke></ChuckNorrisJoke>*/}
+        {/*<ChuckNorrisJoke></ChuckNorrisJoke>*/}
        {/* <AlbumVoting></AlbumVoting>*/}
       <UserProvider>
           <UserInfoPanel></UserInfoPanel>
