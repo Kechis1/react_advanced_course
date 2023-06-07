@@ -3,14 +3,18 @@ import {act, fireEvent, render, screen, waitFor} from "@testing-library/react";
 import {ChuckNorrisJoke} from "../../components/ChuckNorrisJoke";
 
 jest.mock('axios');
-const mockedAxios = axios as jest.Mocked<typeof axios>;
 const axiosResponse  = {data: {value: 'test'}};
 
-beforeEach(() => {
-    mockedAxios.get.mockResolvedValue(axiosResponse);
-});
+// Create a jest mock function
+const mockGet = jest.fn();
+
+// Override the axios.get method with your mock function
+axios.get = mockGet;
 
 describe('ChuckNorrisJoker component', () => {
+    beforeEach(() => {
+        mockGet.mockResolvedValue(axiosResponse);
+    });
 
     it('should display the load next button', async function () {
         await act(async () => {
@@ -59,7 +63,7 @@ describe('ChuckNorrisJoker component', () => {
         expect(await screen.findByText(axiosResponse.data.value)).toBeInTheDocument();
 
         const axiosResponse2  = {data: {value: 'test2'}};
-        mockedAxios.get.mockResolvedValueOnce(axiosResponse2);
+        mockGet.mockResolvedValueOnce(axiosResponse2);
         fireEvent.click(button);
 
         expect(await screen.findByText(axiosResponse2.data.value)).toBeInTheDocument();
