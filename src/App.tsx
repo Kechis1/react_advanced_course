@@ -6,6 +6,39 @@ import {AlbumVoting} from "./components/AlbumVoting";
 import {UserProvider} from "./components/providers/UserProvider";
 import {UserInfoPanel} from "./components/panels/UserInfoPanel";
 import {JokeFetcher} from "./components/JokeFetcher";
+import {createBrowserRouter, RouterProvider} from 'react-router-dom';
+import {Layout} from "./layouts/Layout";
+import {Categories} from "./components/Categories";
+import {Category} from "./components/Category";
+import {ThrowMe} from "./components/errors/ThrowMe";
+
+
+const router = createBrowserRouter([
+    {
+        path: '/',
+        element: <Layout />,
+        children: [
+            {
+                path: 'votes',
+                element: <AlbumVoting />
+            },
+            {
+                path: 'categories',
+                element: <Categories />,
+                children: [
+                    {
+                        path: ':categoryId',
+                        element: <Category />
+                    },
+                ]
+            },
+            {
+                path: 'error',
+                element: <ThrowMe />,
+            }
+        ]
+    }
+]);
 
 function App() {
   return (
@@ -15,9 +48,11 @@ function App() {
      {/* <UserProvider>
           <UserInfoPanel></UserInfoPanel>
       </UserProvider>*/}
-        <JokeFetcher>
+        {/*<JokeFetcher>
             {({joke, loading}) => <p>{loading ? 'Loading...' : joke.value}</p>}
-        </JokeFetcher>
+        </JokeFetcher>*/}
+
+      <RouterProvider router={router} />
     </div>
   );
 }
